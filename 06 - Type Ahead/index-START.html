@@ -14,9 +14,27 @@
       <li>or a state</li>
     </ul>
   </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
-</script>
-  </body>
+  <script>
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+    let cities = [];
+    fetch(endpoint)
+      .then(res => res.json())
+      .then(place => cities.push(...place))
+
+    let input = document.querySelector('input');
+    let list = document.querySelector('ul');
+
+    function handleChange() {
+      let regex = new RegExp(`${this.value}`,'gi')
+      let filtered = cities.filter(city => {
+        return regex.test(city.city) || regex.test(city.state);
+      });
+      console.log(filtered);
+    }
+
+    input.addEventListener('change', handleChange);
+    input.addEventListener('keyup', handleChange);
+  </script>
+</body>
 </html>
